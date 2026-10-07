@@ -78,6 +78,46 @@ make api
 
 ---
 
+
+## 🔍 Exploratory Data Analysis
+
+The raw dataset contains **5,078,345 transactions** over **11 days**
+(2022-09-01 → 2022-09-11) with an extreme class imbalance:
+only **~0.1 %** are labeled as laundering.
+
+| Metric | Value |
+|--------|-------|
+| Total transactions | 5,078,345 |
+| Laundering transactions | ~6,900 |
+| Laundering rate | ~0.14 % |
+| Unique source accounts | ~500 k |
+| Unique banks | ~30 k |
+| Payment formats | 5 (ACH, Wire, Cheque, Credit Card, Reinvestment) |
+| Currencies | 5+ (US Dollar, Euro, Yuan, ...) |
+
+### Visual insights
+
+| Target distribution | Amount distribution |
+|---|---|
+| ![target](reports/target_distribution.png) | ![amount](reports/amount_distribution.png) |
+
+| Categoricals | Temporal |
+|---|---|
+| ![cats](reports/categoricals.png) | ![temporal](reports/temporal.png) |
+
+See notebooks for full analysis:
+- [`notebooks/01_eda_raw.ipynb`](notebooks/01_eda_raw.ipynb) — raw EDA
+- [`notebooks/02_eda_clean.ipynb`](notebooks/02_eda_clean.ipynb) — post-cleaning
+
+
+
+
+
+
+
+
+
+
 ## 📊 Results
 
 _To be filled after training (Phase 6)._
