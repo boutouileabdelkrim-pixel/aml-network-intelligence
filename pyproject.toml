@@ -67,6 +67,7 @@ dev = [
     "jupyterlab>=4.2",
     "nbformat>=5.10",
     "httpx>=0.27",
+    "kaggle>=1.6",
 ]
 
 [build-system]
