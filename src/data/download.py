@@ -38,18 +38,23 @@ def _already_downloaded() -> bool:
 
 
 def _extract_zip() -> None:
+    """Extract only HI-Small_* files (the rest is 40+ GB of unused data)."""
     zips = list(RAW_DIR.glob("*.zip"))
     if not zips:
         logger.warning("No .zip found to extract.")
         return
 
+    import fnmatch
+
     for archive in zips:
-        logger.info(f"Extracting {archive.name} ...")
+        logger.info(f"Extracting HI-Small files from {archive.name} ...")
         with zipfile.ZipFile(archive, "r") as zf:
-            zf.extractall(RAW_DIR)
+            for member in zf.namelist():
+                if fnmatch.fnmatch(member, "HI-Small*"):
+                    logger.info(f"  -> {member}")
+                    zf.extract(member, RAW_DIR, pwd=None)
         archive.unlink()
         logger.info(f"Removed archive {archive.name}")
-
 
 def download() -> Path:
     """Download the dataset and return the raw directory."""
