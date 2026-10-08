@@ -23,37 +23,36 @@ dependencies = [
     "pandas>=2.2,<3.0",
     "scipy>=1.11,<2.0",
     "pyarrow>=16.0",
-
     # ML
     "scikit-learn>=1.4",
     "xgboost>=2.0",
     "lightgbm>=4.3",
     "optuna>=3.6",
     "shap>=0.45",
-
     # Graph
     "networkx>=3.3",
     "igraph>=0.11",
     "leidenalg>=0.10",
     "torch>=2.3",
     "torch-geometric>=2.5",
-
     # API / serving
     "fastapi>=0.111",
     "uvicorn[standard]>=0.30",
     "pydantic>=2.7",
     "pydantic-settings>=2.2",
     "python-multipart>=0.0.9",
-
     # Tracking / monitoring
     "mlflow>=2.14",
     "evidently>=0.4.30",
     "loguru>=0.7",
-
     # Utils
     "python-dotenv>=1.0",
     "pyyaml>=6.0",
     "tqdm>=4.66",
+    "gensim>=4.3",
+    "node2vec>=0.4",
+    "cython>=3.0",
+    "fastnode2vec==0.0.7",
 ]
 
 [project.optional-dependencies]

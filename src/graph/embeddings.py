@@ -1,12 +1,11 @@
-"""Node2Vec embeddings per account using gensim (pure Python).
+"""Node2Vec embeddings per account using fastnode2vec (Cython, 100x faster).
 
 Produces a 64-dim vector per account. Saved as parquet with columns
 emb_0 ... emb_63 plus account index.
 
-Why gensim instead of PyG?
-- PyG's Node2Vec requires pyg-lib (C++ extension, hard to install).
-- gensim's Word2Vec over node2vec random walks gives equivalent results
-  and installs in seconds with no compilation.
+Why fastnode2vec?
+- The `node2vec` package uses Python loops -> 30+ min on 515k nodes.
+- `fastnode2vec` uses Numba/Cython -> ~1-2 min on the same graph.
 """
 
 from __future__ import annotations
@@ -19,9 +18,8 @@ from pathlib import Path
 import networkx as nx
 import numpy as np
 import pandas as pd
-from gensim.models import Word2Vec
+from fastnode2vec import Graph, Node2Vec
 from loguru import logger
-from node2vec import Node2Vec
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 GRAPH_PATH = PROJECT_ROOT / "data" / "features" / "graph.gpickle"
@@ -31,9 +29,10 @@ EMBEDDING_DIM = 64
 WALK_LENGTH = 20
 NUM_WALKS = 5
 WINDOW = 10
-MIN_COUNT = 1
-WORKERS = 2
 EPOCHS = 3
+WORKERS = 4
+P = 1.0
+Q = 1.0
 
 
 def train_node2vec() -> pd.DataFrame:
@@ -42,46 +41,42 @@ def train_node2vec() -> pd.DataFrame:
         g: nx.DiGraph = pickle.load(f)
     logger.info(f"Graph: {g.number_of_nodes():,} nodes, {g.number_of_edges():,} edges")
 
-    logger.info("Converting to undirected ...")
+    logger.info("Converting to undirected edge list ...")
     ug = g.to_undirected()
-    logger.info(f"Undirected: {ug.number_of_nodes():,} nodes, {ug.number_of_edges():,} edges")
+    edges = list(ug.edges())
+    logger.info(f"Undirected: {ug.number_of_nodes():,} nodes, {len(edges):,} edges")
+
+    logger.info("Building fastnode2vec Graph ...")
+    t0 = time.time()
+    fg = Graph(edges, directed=False, weighted=False)
+    logger.info(f"fastnode2vec Graph built in {time.time()-t0:.1f}s")
 
     logger.info(
-        f"Building Node2Vec (dim={EMBEDDING_DIM}, walks={NUM_WALKS}, length={WALK_LENGTH}) ..."
+        f"Training Node2Vec (dim={EMBEDDING_DIM}, walks={NUM_WALKS}, "
+        f"length={WALK_LENGTH}, p={P}, q={Q}) ..."
     )
-    t0 = time.time()
-
+    t1 = time.time()
     n2v = Node2Vec(
-        ug,
-        dimensions=EMBEDDING_DIM,
+        fg,
+        dim=EMBEDDING_DIM,
         walk_length=WALK_LENGTH,
-        num_walks=NUM_WALKS,
-        weight_key=None,  # no weighted walks (simpler, faster)
-        workers=WORKERS,
-        quiet=True,
-    )
-
-    logger.info("Training Word2Vec on random walks ...")
-    model = n2v.fit(
         window=WINDOW,
-        min_count=MIN_COUNT,
-        sg=1,       # skip-gram (Node2Vec standard)
+        p=P,
+        q=Q,
         workers=WORKERS,
-        epochs=EPOCHS,
-        seed=42,
     )
-    logger.info(f"Training done in {time.time()-t0:.1f}s")
+    n2v.train(epochs=EPOCHS)
+    logger.info(f"Training done in {time.time()-t1:.1f}s")
 
     logger.info("Extracting embeddings ...")
     nodes = list(ug.nodes())
-    dim = model.wv.vector_size
+    dim = EMBEDDING_DIM
     embeddings = np.zeros((len(nodes), dim), dtype="float32")
     missing = 0
     for i, node in enumerate(nodes):
         try:
-            embeddings[i] = model.wv[str(node)]
+            embeddings[i] = n2v.wv[str(node)]
         except KeyError:
-            # Node never appeared in any walk (isolated); leave as zeros
             missing += 1
     logger.info(f"Embeddings shape: {embeddings.shape} — {missing} nodes with zero vectors")
 
