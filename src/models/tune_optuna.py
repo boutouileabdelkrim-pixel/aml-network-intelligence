@@ -10,7 +10,6 @@ import json
 import sys
 import time
 
-import numpy as np
 import optuna
 import xgboost as xgb
 from loguru import logger
@@ -43,8 +42,10 @@ def build_objective(X_tr, y_tr, X_va, y_va, spw):
             "reg_alpha": trial.suggest_float("reg_alpha", 1e-3, 10.0, log=True),
             "reg_lambda": trial.suggest_float("reg_lambda", 1e-3, 10.0, log=True),
         }
+
         try:
             import torch
+
             if torch.cuda.is_available():
                 params["device"] = "cuda"
         except Exception:
@@ -79,9 +80,15 @@ def tune() -> dict:
 
     logger.info(f"Starting Optuna study — {N_TRIALS} trials ...")
     t1 = time.time()
-    optuna.logging.set_verbosity(optuna.logging.WARNING)
-    optuna.logging.set_verbosity(optuna.logging.INFO)  # voir chaque trial
-    study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=SEED))
+
+    # Afficher chaque trial dans les logs
+    optuna.logging.set_verbosity(optuna.logging.INFO)
+
+    study = optuna.create_study(
+        direction="maximize",
+        sampler=optuna.samplers.TPESampler(seed=SEED),
+    )
+
     try:
         study.optimize(
             build_objective(X_tr, y_tr, X_va, y_va, spw),
@@ -89,8 +96,9 @@ def tune() -> dict:
             show_progress_bar=False,
         )
     except KeyboardInterrupt:
-        logger.warning("Interrupted — saving partial results ...")    logger.info(f"Study done in {time.time()-t1:.1f}s")
+        logger.warning("Interrupted — saving partial results ...")
 
+    logger.info(f"Study done in {time.time()-t1:.1f}s")
     logger.info(f"Best PR-AUC (val): {study.best_value:.5f}")
     logger.info(f"Best params: {study.best_params}")
 
@@ -104,8 +112,12 @@ def tune() -> dict:
         json.dump(out, f, indent=2)
     logger.success(f"Saved {MODELS_DIR / 'best_xgb_params.json'}")
 
-    # Print top 5 trials
-    trials = sorted(study.trials, key=lambda t: t.value if t.value is not None else -1, reverse=True)[:5]
+    # Top 5 trials
+    trials = sorted(
+        study.trials,
+        key=lambda t: t.value if t.value is not None else -1,
+        reverse=True,
+    )[:5]
     logger.info("Top 5 trials:")
     for i, t in enumerate(trials, 1):
         logger.info(f"  #{i} — PR-AUC={t.value:.5f} — params={t.params}")
@@ -118,4 +130,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    sys.exit(tune())
+    sys.exit(main())
