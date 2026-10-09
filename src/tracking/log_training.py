@@ -90,7 +90,18 @@ def run() -> dict:
             "random_state": 42,
             **params,
         }
-        mlflow.log_params(full_params)
+
+        # GPU detection
+        try:
+            import torch
+
+            if torch.cuda.is_available():
+                full_params["device"] = "cuda"
+                logger.info("GPU detected — using device=cuda")
+            else:
+                logger.info("No GPU — using CPU")
+        except Exception:
+            logger.info("torch missing — using CPU")        mlflow.log_params(full_params)
         mlflow.log_param("n_train_rows", len(X_tr))
         mlflow.log_param("n_features", len(feat_cols))
 
