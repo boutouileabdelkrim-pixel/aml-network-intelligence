@@ -127,8 +127,56 @@ _To be filled after training (Phase 6)._
 | XGBoost | TBD | TBD | TBD |
 | LightGBM | TBD | TBD | TBD |
 
----
 
+---
+## 🔬 Explainability (SHAP)
+
+SHAP (SHapley Additive exPlanations) is **mandatory for AML** — regulators
+require understanding *why* each alert fired.
+
+### Top 20 features driving predictions
+
+![SHAP importance](reports/shap_importance_bar.png)
+
+| # | Feature | Type | Mean |SHAP| |
+|---|---------|------|-----------|
+| 1 | `fmt_ach` | categorical | **1.699** |
+| 2 | `acc_from_cnt_1h` | temporal | 0.769 |
+| 3 | `acc_from_ts_since_prev_s` | temporal | 0.520 |
+| 4 | `acc_from_cnt_1d` | temporal | 0.503 |
+| 5 | `acc_from_velocity_tx_per_day` | temporal | 0.400 |
+| 6 | `payment_format_freq` | categorical | 0.381 |
+| 7 | `acc_to_ts_since_prev_s` | temporal | 0.313 |
+| 8 | `acc_from_n_tx` | tabular | 0.284 |
+| 9 | `acc_from_ts_since_first_s` | temporal | 0.275 |
+| 10 | `acc_to_n_tx` | tabular | 0.251 |
+| **14** | **`gfrom_g_pagerank`** | **graph** | **0.230** |
+| **15** | **`gfrom_g_out_degree`** | **graph** | **0.189** |
+| **16** | **`gto_g_in_degree`** | **graph** | **0.179** |
+| **19** | **`gto_g_total_degree`** | **graph** | **0.175** |
+
+### Key insights
+
+- **8/20 top features are temporal (velocity)** → fraud manifests as **bursts** of
+  transactions in short windows (1h, 1d).
+- **4/20 top features are graph-based** → the network signal (`PageRank`,
+  `out_degree`, `in_degree`) is real and complementary to tabular data.
+- **`fmt_ach` dominates (2.2× #2)** → ACH is the main channel in IBM's AML patterns.
+
+### Beeswarm — distribution of feature impacts
+
+![SHAP beeswarm](reports/shap_summary_beeswarm.png)
+
+### Local explanation — top-scored transaction
+
+![SHAP waterfall](reports/shap_waterfall_top1.png)
+
+The model flags this transaction because: high 1-hour transaction count,
+short time since previous transaction, and high PageRank in the account graph.
+
+### Dependence plot — velocity signal
+
+![SHAP dependence](reports/shap_dependence_2_acc_from_cnt_1h.png)
 ## 🛠️ Tech Stack
 
 - **Data**: pandas, numpy, scipy, pyarrow

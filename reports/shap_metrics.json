@@ -1,0 +1,153 @@
+{
+  "n_global_sample": 10000,
+  "sample_positive_rate": 0.0022,
+  "top_30_features": [
+    {
+      "feature": "fmt_ach",
+      "mean_abs_shap": 1.6994531154632568
+    },
+    {
+      "feature": "acc_from_cnt_1h",
+      "mean_abs_shap": 0.7690110206604004
+    },
+    {
+      "feature": "acc_from_ts_since_prev_s",
+      "mean_abs_shap": 0.5197299122810364
+    },
+    {
+      "feature": "acc_from_cnt_1d",
+      "mean_abs_shap": 0.5031915307044983
+    },
+    {
+      "feature": "acc_from_velocity_tx_per_day",
+      "mean_abs_shap": 0.40022939443588257
+    },
+    {
+      "feature": "payment_format_freq",
+      "mean_abs_shap": 0.38123926520347595
+    },
+    {
+      "feature": "acc_to_ts_since_prev_s",
+      "mean_abs_shap": 0.3129199147224426
+    },
+    {
+      "feature": "acc_from_n_tx",
+      "mean_abs_shap": 0.2840733528137207
+    },
+    {
+      "feature": "acc_from_ts_since_first_s",
+      "mean_abs_shap": 0.27532970905303955
+    },
+    {
+      "feature": "acc_to_n_tx",
+      "mean_abs_shap": 0.2513517141342163
+    },
+    {
+      "feature": "acc_from_ts_since_last_s",
+      "mean_abs_shap": 0.2436123490333557
+    },
+    {
+      "feature": "amount_received",
+      "mean_abs_shap": 0.23955480754375458
+    },
+    {
+      "feature": "tx_from_amount_ratio_q95",
+      "mean_abs_shap": 0.2335430234670639
+    },
+    {
+      "feature": "gfrom_g_pagerank",
+      "mean_abs_shap": 0.23026974499225616
+    },
+    {
+      "feature": "gfrom_g_out_degree",
+      "mean_abs_shap": 0.18851089477539062
+    },
+    {
+      "feature": "gto_g_in_degree",
+      "mean_abs_shap": 0.17903201282024384
+    },
+    {
+      "feature": "tx_to_amount_ratio_q95",
+      "mean_abs_shap": 0.17895513772964478
+    },
+    {
+      "feature": "acc_to_ts_since_last_s",
+      "mean_abs_shap": 0.17526328563690186
+    },
+    {
+      "feature": "gto_g_total_degree",
+      "mean_abs_shap": 0.17513233423233032
+    },
+    {
+      "feature": "amount_paid",
+      "mean_abs_shap": 0.15111683309078217
+    },
+    {
+      "feature": "gfrom_g_total_degree",
+      "mean_abs_shap": 0.1390571892261505
+    },
+    {
+      "feature": "gto_g_pagerank",
+      "mean_abs_shap": 0.1367635428905487
+    },
+    {
+      "feature": "tx_from_amount_ratio",
+      "mean_abs_shap": 0.11630295217037201
+    },
+    {
+      "feature": "gfrom_g_degree_ratio",
+      "mean_abs_shap": 0.11627701669931412
+    },
+    {
+      "feature": "acc_from_sum_1h",
+      "mean_abs_shap": 0.11418643593788147
+    },
+    {
+      "feature": "acc_to_sum_1h",
+      "mean_abs_shap": 0.11359001696109772
+    },
+    {
+      "feature": "gto_e_emb_51",
+      "mean_abs_shap": 0.10705490410327911
+    },
+    {
+      "feature": "gto_g_out_strength",
+      "mean_abs_shap": 0.10392989218235016
+    },
+    {
+      "feature": "gfrom_g_in_strength",
+      "mean_abs_shap": 0.1008400022983551
+    },
+    {
+      "feature": "tx_to_amount_ratio",
+      "mean_abs_shap": 0.09989979863166809
+    }
+  ],
+  "top_5_scored_transactions": [
+    {
+      "rank": 1,
+      "predicted_prob": 0.9999822378158569,
+      "true_label": 1
+    },
+    {
+      "rank": 2,
+      "predicted_prob": 0.9999725818634033,
+      "true_label": 1
+    },
+    {
+      "rank": 3,
+      "predicted_prob": 0.9999716281890869,
+      "true_label": 1
+    },
+    {
+      "rank": 4,
+      "predicted_prob": 0.9999710321426392,
+      "true_label": 1
+    },
+    {
+      "rank": 5,
+      "predicted_prob": 0.9999699592590332,
+      "true_label": 1
+    }
+  ]
+}
