@@ -1,0 +1,48 @@
+# =========================================================
+# AML Network Intelligence — Docker ignore
+# =========================================================
+
+# Git
+.git/
+.gitignore
+.github/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Data (huge — not needed in image)
+data/
+
+# Notebooks (not needed at runtime)
+notebooks/
+
+# Reports (build artifacts)
+reports/*.png
+reports/*.csv
+
+# MLflow
+mlruns/
+
+# Docker
+docker/
+
+# Docs
+docs/
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
