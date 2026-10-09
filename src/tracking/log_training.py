@@ -35,8 +35,7 @@ from src.models.common import (
     load_features,
 )
 from src.models.split import load_split
-from src.tracking.mlflow_setup import EXPERIMENT_NAME, MLRUNS_DIR, setup
-
+from src.tracking.mlflow_setup import EXPERIMENT_NAME, setup
 MODEL_NAME = "aml-xgb-final"
 
 

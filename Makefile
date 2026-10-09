@@ -72,8 +72,7 @@ api:
 
 .PHONY: mlflow
 mlflow:
-	$(UV) run mlflow ui --backend-store-uri ./mlruns --port 5000
-
+	$(UV) run mlflow ui --backend-store-uri sqlite:///mlflow.db --port 5000 --host 127.0.0.1
 # ---------------------------------------------------------
 # Tests & Quality
 # ---------------------------------------------------------
