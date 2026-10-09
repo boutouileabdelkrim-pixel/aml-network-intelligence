@@ -64,20 +64,11 @@ def train_lgbm() -> dict:
     logger.info(f"scale_pos_weight = {spw:.1f}")
 
     # Detect GPU
-    try:
-        import torch
-        if torch.cuda.is_available():
-            PARAMS["device"] = "gpu"
-            PARAMS["gpu_platform_id"] = 0
-            PARAMS["gpu_device_id"] = 0
-            logger.info("GPU detected — using device=gpu")
-        else:
-            PARAMS["device"] = "cpu"
-            logger.info("No GPU — using CPU")
-    except Exception:
-        PARAMS["device"] = "cpu"
-        logger.info("torch missing — using CPU")
-
+    # Force CPU: LightGBM GPU has a known bug with extreme class imbalance
+    # (Check failed: best_split_info.left_count > 0)
+    # CPU is slightly slower but 100% reliable.
+    PARAMS["device"] = "cpu"
+    logger.info("Using CPU for LightGBM (GPU has imbalance bug)")
     logger.info(f"LightGBM params: {PARAMS}")
 
     logger.info("Training LightGBM ...")
