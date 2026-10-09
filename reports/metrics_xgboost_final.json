@@ -1,0 +1,32 @@
+{
+  "val": {
+    "pr_auc": 0.50419,
+    "roc_auc": 0.98164,
+    "f1_at_0.5": 0.35142,
+    "precision_at_0.5": 0.24423,
+    "recall_at_0.5": 0.62632,
+    "n_samples": 761751,
+    "n_positive": 760
+  },
+  "test": {
+    "pr_auc": 0.68366,
+    "roc_auc": 0.98466,
+    "f1_at_0.5": 0.52905,
+    "precision_at_0.5": 0.41231,
+    "recall_at_0.5": 0.73799,
+    "n_samples": 761753,
+    "n_positive": 1561
+  },
+  "best_iter": 1475,
+  "train_time_s": 279.2,
+  "hyperparams": {
+    "max_depth": 7,
+    "learning_rate": 0.030611488731000357,
+    "subsample": 0.9878338511058234,
+    "colsample_bytree": 0.9100531293444458,
+    "min_child_weight": 19,
+    "gamma": 4.474136752138244,
+    "reg_alpha": 0.24637685958997463,
+    "reg_lambda": 4.869640941520899
+  }
+}
