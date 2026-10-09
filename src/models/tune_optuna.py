@@ -19,7 +19,7 @@ from sklearn.metrics import average_precision_score
 from src.models.common import MODELS_DIR, TARGET, get_feature_columns, load_features
 from src.models.split import load_split
 
-N_TRIALS = 30
+N_TRIALS = 12
 SEED = 42
 EARLY_STOP = 30
 
@@ -80,13 +80,16 @@ def tune() -> dict:
     logger.info(f"Starting Optuna study — {N_TRIALS} trials ...")
     t1 = time.time()
     optuna.logging.set_verbosity(optuna.logging.WARNING)
+    optuna.logging.set_verbosity(optuna.logging.INFO)  # voir chaque trial
     study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=SEED))
-    study.optimize(
-        build_objective(X_tr, y_tr, X_va, y_va, spw),
-        n_trials=N_TRIALS,
-        show_progress_bar=False,
-    )
-    logger.info(f"Study done in {time.time()-t1:.1f}s")
+    try:
+        study.optimize(
+            build_objective(X_tr, y_tr, X_va, y_va, spw),
+            n_trials=N_TRIALS,
+            show_progress_bar=False,
+        )
+    except KeyboardInterrupt:
+        logger.warning("Interrupted — saving partial results ...")    logger.info(f"Study done in {time.time()-t1:.1f}s")
 
     logger.info(f"Best PR-AUC (val): {study.best_value:.5f}")
     logger.info(f"Best params: {study.best_params}")
