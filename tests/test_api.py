@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 from fastapi.testclient import TestClient
-
 from src.api.main import app
+
 from tests.conftest import requires_model
 
 
