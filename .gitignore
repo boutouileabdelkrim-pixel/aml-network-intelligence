@@ -20,7 +20,6 @@ venv/
 env/
 ENV/
 .uv/
-uv.lock
 
 # =========================================================
 # Jupyter
@@ -51,6 +50,7 @@ data/features/*
 # =========================================================
 models/*
 !models/.gitkeep
+!models/best_xgb_params.json
 *.pkl
 *.joblib
 *.ubj
