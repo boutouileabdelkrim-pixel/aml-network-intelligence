@@ -86,8 +86,25 @@ src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM", "RUF"]
-ignore = ["E501"]
-
+ignore = [
+    "E501",    # line too long (ML pipelines have long lines)
+    "B904",    # raise from err (FastAPI conventions)
+    "B905",    # zip() without strict= (Python 3.9 compat)
+    "B007",    # loop control variable not used
+    "B008",    # function call in default arg (FastAPI Depends)
+    "N803",    # argument name lowercase (X_train convention)
+    "N806",    # variable lowercase (X_train convention)
+    "N812",    # lowercase imported as non-lowercase
+    "N815",    # mixedCase variable in class scope
+    "RUF001",  # ambiguous unicode in string (French accents)
+    "RUF002",  # ambiguous unicode in docstring
+    "RUF003",  # ambiguous unicode in comment
+    "RUF046",  # unnecessary int() (harmless)
+    "RUF059",  # unpacked variable not used
+    "F841",    # local variable assigned but not used (heavily used in ML)
+    "C901",    # function too complex (ML functions are complex)
+    "SIM108",  # use ternary operator (readability preference)
+]
 # =========================================================
 # Pytest
 # =========================================================

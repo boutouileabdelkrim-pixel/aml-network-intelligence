@@ -11,7 +11,6 @@ import sys
 import time
 
 import joblib
-import numpy as np
 import xgboost as xgb
 from loguru import logger
 

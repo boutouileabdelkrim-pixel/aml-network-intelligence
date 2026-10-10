@@ -8,7 +8,6 @@ from pathlib import Path
 
 import joblib
 import numpy as np
-import pandas as pd
 import xgboost as xgb
 from loguru import logger
 

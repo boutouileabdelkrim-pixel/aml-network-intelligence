@@ -14,7 +14,7 @@ import numpy as np
 import pandas as pd
 from loguru import logger
 
-from src.models.common import TARGET, load_features
+from src.models.common import TARGET
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SPLIT_PATH = PROJECT_ROOT / "data" / "features" / "split_indices.npz"
@@ -73,17 +73,17 @@ def make_split() -> Path:
     summary = {
         "n_total": int(n),
         "train": {
-            "n": int(len(idx_train)),
+            "n": len(idx_train),
             "n_pos": int(target[idx_train].sum()),
             "rate": float(target[idx_train].mean()),
         },
         "val": {
-            "n": int(len(idx_val)),
+            "n": len(idx_val),
             "n_pos": int(target[idx_val].sum()),
             "rate": float(target[idx_val].mean()),
         },
         "test": {
-            "n": int(len(idx_test)),
+            "n": len(idx_test),
             "n_pos": int(target[idx_test].sum()),
             "rate": float(target[idx_test].mean()),
         },

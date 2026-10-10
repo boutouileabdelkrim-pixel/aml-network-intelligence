@@ -10,10 +10,8 @@ import sys
 import time
 
 import joblib
-import numpy as np
 import xgboost as xgb
 from loguru import logger
-from sklearn.ensemble import IsolationForest
 
 from src.models.common import (
     MODELS_DIR,

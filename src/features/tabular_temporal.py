@@ -164,11 +164,11 @@ def build_temporal_features(df: pd.DataFrame) -> pd.DataFrame:
     for side in ["from", "to"]:
         logger.info(f"  temporal features — side={side}")
         df = recency_features(df, side)
-        logger.info(f"    recency done")
+        logger.info("    recency done")
         df = inter_transaction_delta(df, side)
-        logger.info(f"    inter-transaction delta done")
+        logger.info("    inter-transaction delta done")
         df = rolling_window_features(df, side)
-        logger.info(f"    rolling windows done")
+        logger.info("    rolling windows done")
         df = velocity_features(df, side)
-        logger.info(f"    velocity done")
+        logger.info("    velocity done")
     return df

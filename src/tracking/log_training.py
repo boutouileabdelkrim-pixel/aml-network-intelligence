@@ -13,11 +13,9 @@ from __future__ import annotations
 import json
 import sys
 import time
-from pathlib import Path
 
 import mlflow
 import mlflow.xgboost
-import numpy as np
 import xgboost as xgb
 from loguru import logger
 from sklearn.metrics import (
@@ -36,6 +34,7 @@ from src.models.common import (
 )
 from src.models.split import load_split
 from src.tracking.mlflow_setup import EXPERIMENT_NAME, setup
+
 MODEL_NAME = "aml-xgb-final"
 
 
@@ -100,7 +99,7 @@ def run() -> dict:
                 logger.info("GPU detected — using device=cuda")
             else:
                 logger.info("No GPU — using CPU")
- 
+
         except Exception:
             logger.info("torch missing — using CPU")
 

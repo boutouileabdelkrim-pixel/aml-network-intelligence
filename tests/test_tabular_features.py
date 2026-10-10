@@ -5,10 +5,8 @@ Uses small synthetic data — fast and deterministic.
 
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 import pytest
-
 from src.features.tabular_basic import (
     account_aggregates,
     categorical_features,

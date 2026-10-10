@@ -71,8 +71,8 @@ def detect_drift(
     # Manual drift summary — count columns with drift
     metrics = {
         "n_features": len(numeric_cols),
-        "reference_rows": int(len(reference)),
-        "current_rows": int(len(current)),
+        "reference_rows": len(reference),
+        "current_rows": len(current),
         "html_report": str(html_path),
     }
 

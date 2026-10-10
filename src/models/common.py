@@ -60,7 +60,7 @@ def evaluate(y_true: np.ndarray, y_prob: np.ndarray) -> dict:
         "f1_at_0.5": float(f1_score(y_true, y_pred, zero_division=0)),
         "precision_at_0.5": float(precision_score(y_true, y_pred, zero_division=0)),
         "recall_at_0.5": float(recall_score(y_true, y_pred, zero_division=0)),
-        "n_samples": int(len(y_true)),
+        "n_samples": len(y_true),
         "n_positive": int(y_true.sum()),
         "positive_rate": float(y_true.mean()),
     }

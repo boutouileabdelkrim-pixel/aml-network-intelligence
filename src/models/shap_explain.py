@@ -15,7 +15,6 @@ from __future__ import annotations
 import json
 import sys
 import time
-from pathlib import Path
 
 import joblib
 import matplotlib
@@ -23,7 +22,6 @@ import matplotlib
 matplotlib.use("Agg")  # no display
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import shap
 import xgboost as xgb
 from loguru import logger
@@ -32,7 +30,6 @@ from src.models.common import (
     MODELS_DIR,
     REPORTS_DIR,
     TARGET,
-    get_feature_columns,
     load_features,
 )
 from src.models.split import load_split

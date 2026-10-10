@@ -12,10 +12,8 @@ import sys
 import time
 
 import joblib
-import numpy as np
 from loguru import logger
 from sklearn.ensemble import IsolationForest
-from sklearn.metrics import average_precision_score
 
 from src.models.common import (
     MODELS_DIR,

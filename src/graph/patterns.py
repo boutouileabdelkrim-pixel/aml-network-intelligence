@@ -16,7 +16,6 @@ import time
 from pathlib import Path
 
 import networkx as nx
-import numpy as np
 import pandas as pd
 from loguru import logger
 
@@ -81,7 +80,7 @@ def detect_patterns() -> pd.DataFrame:
     )
 
     # Count number of 2-cycle partners
-    cycle_counts = {n: 0 for n in nodes}
+    cycle_counts = dict.fromkeys(nodes, 0)
     for u, v in g.edges():
         if g.has_edge(v, u):
             cycle_counts[u] += 1

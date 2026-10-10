@@ -42,8 +42,8 @@ def compute_topology() -> pd.DataFrame:
     out_deg_w = dict(g.out_degree(weight="n_tx"))
 
     # In/out strength = sum of total_amount
-    in_strength: dict[str, float] = {n: 0.0 for n in nodes}
-    out_strength: dict[str, float] = {n: 0.0 for n in nodes}
+    in_strength: dict[str, float] = dict.fromkeys(nodes, 0.0)
+    out_strength: dict[str, float] = dict.fromkeys(nodes, 0.0)
     for u, v, data in g.edges(data=True):
         out_strength[u] = out_strength.get(u, 0.0) + float(data.get("total_amount", 0.0))
         in_strength[v] = in_strength.get(v, 0.0) + float(data.get("total_amount", 0.0))
