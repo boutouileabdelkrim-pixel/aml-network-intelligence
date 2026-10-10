@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import pytest
 from fastapi.testclient import TestClient
+
 from src.api.main import app
+from tests.conftest import requires_model
 
 
 @pytest.fixture(scope="module")
@@ -13,6 +15,7 @@ def client():
         yield c
 
 
+@requires_model
 def test_health(client: TestClient) -> None:
     r = client.get("/health")
     assert r.status_code == 200
@@ -21,6 +24,7 @@ def test_health(client: TestClient) -> None:
     assert "version" in data
 
 
+@requires_model
 def test_model_info(client: TestClient) -> None:
     r = client.get("/model/info")
     assert r.status_code == 200
@@ -30,6 +34,7 @@ def test_model_info(client: TestClient) -> None:
     assert 0 < data["threshold"] < 1
 
 
+@requires_model
 def test_predict_simple(client: TestClient) -> None:
     payload = {
         "from_account": "ACC001",
@@ -48,6 +53,7 @@ def test_predict_simple(client: TestClient) -> None:
     assert "latency_ms" in data
 
 
+@requires_model
 def test_predict_minimal(client: TestClient) -> None:
     """Only account IDs — everything else defaults to 0."""
     r = client.post("/predict", json={"from_account": "A", "to_account": "B"})
@@ -55,6 +61,7 @@ def test_predict_minimal(client: TestClient) -> None:
     assert 0 <= r.json()["is_laundering_prob"] <= 1
 
 
+@requires_model
 def test_predict_batch(client: TestClient) -> None:
     batch = [
         {"from_account": "A1", "to_account": "B1", "acc_from_cnt_1h": 5.0},
@@ -68,6 +75,7 @@ def test_predict_batch(client: TestClient) -> None:
     assert len(data["predictions"]) == 3
 
 
+@requires_model
 def test_batch_empty(client: TestClient) -> None:
     r = client.post("/predict/batch", json=[])
     assert r.status_code == 400
