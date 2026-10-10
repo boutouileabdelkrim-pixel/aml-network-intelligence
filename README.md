@@ -110,6 +110,27 @@ See notebooks for full analysis:
 - [`notebooks/02_eda_clean.ipynb`](notebooks/02_eda_clean.ipynb) — post-cleaning
 
 
+## 📡 Monitoring — Drift Detection
+
+The model is monitored with **Evidently** for data drift. Three scenarios
+are tested against the training distribution:
+
+| Scenario | Transformation | Result |
+|----------|----------------|--------|
+| 1. Baseline | Same distribution | No drift |
+| 2. Amount shift | Amounts × 1.5 | Drift on amount features |
+| **3. Velocity spike** | **Velocity × 3** | **Drift on temporal features** |
+
+### Velocity spike report
+
+![Drift report](reports/scenario_3_velocity_spike_report.html)
+
+_(open the HTML in a browser for the interactive report)_
+
+The report shows which features drifted, with per-feature
+Kolmogorov-Smirnov tests and PSI values.
+
+See [`docs/monitoring.md`](docs/monitoring.md) for the production setup guide.
 
 
 

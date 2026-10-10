@@ -1,0 +1,20 @@
+{
+  "scenario_1_baseline": {
+    "n_features": 253,
+    "reference_rows": 10000,
+    "current_rows": 10000,
+    "html_report": "/kaggle/working/aml-network-intelligence/reports/scenario_1_baseline_report.html"
+  },
+  "scenario_2_amount_shift": {
+    "n_features": 253,
+    "reference_rows": 10000,
+    "current_rows": 10000,
+    "html_report": "/kaggle/working/aml-network-intelligence/reports/scenario_2_amount_shift_report.html"
+  },
+  "scenario_3_velocity_spike": {
+    "n_features": 253,
+    "reference_rows": 10000,
+    "current_rows": 10000,
+    "html_report": "/kaggle/working/aml-network-intelligence/reports/scenario_3_velocity_spike_report.html"
+  }
+}
